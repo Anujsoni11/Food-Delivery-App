@@ -1,0 +1,1 @@
+This service will contain the list of restaurants and items in it having rating in stars.
