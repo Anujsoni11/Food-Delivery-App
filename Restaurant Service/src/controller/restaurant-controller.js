@@ -1,18 +1,19 @@
 const RestaurantService = require('../service/restaurant-service');
+const {StatusCodes} = require('http-status-codes');
 
 const restaurantService = new RestaurantService();
 
 const createRestaurant = async (req, res) => {
     try {
         const restaurant = await restaurantService.createRestaurant(req.body);
-        return res.status(201).json({
+        return res.status(StatusCodes.ACCEPTED).json({
             success: true,
             data: restaurant,
             err: {},
             message: 'Restaurant created successfully',
         });
     } catch (error) {
-        return res.status(500).json({
+        return res.status(error.statusCode).json({
             success: false,
             data: {},
             err: error,
@@ -24,14 +25,14 @@ const createRestaurant = async (req, res) => {
 const destroyRestaurant = async (req, res) => {
     try {
         await restaurantService.destroyRestaurant(req.params.id);
-        return res.status(200).json({
+        return res.status(StatusCodes.ACCEPTED).json({
             success: true,
             data: {},
             err: {},
             message: 'Restaurant deleted successfully',
         });
     } catch (error) {
-        return res.status(500).json({
+        return res.status(error.statusCode).json({
             success: false,
             data: {},
             err: error,
@@ -43,7 +44,7 @@ const destroyRestaurant = async (req, res) => {
 const updateRestaurant = async (req, res) => {
     try {
         const restaurant = await restaurantService.updateRestaurant(req.params.id, req.body);
-        return res.status(200).json({
+        return res.status(StatusCodes.ACCEPTED).json({
             success: true,
             data: restaurant,
             err: {},
@@ -51,7 +52,7 @@ const updateRestaurant = async (req, res) => {
         });
     } catch(error) {
         console.log(error);
-        return res.status(500).json({
+        return res.status(error.statusCode).json({
             success: false,
             data: {},
             err: error,
@@ -63,14 +64,14 @@ const updateRestaurant = async (req, res) => {
 const getRestaurant = async (req, res) => {
     try {
         const restaurant = await restaurantService.getRestaurantById(req.params.id);
-        return res.status(200).json({
+        return res.status(StatusCodes.ACCEPTED).json({
             success: true,
             data: restaurant,
             err: {},
             message: 'Restaurant fetched successfully'
         });
     } catch(error) {
-        return res.status(500).json({
+        return res.status(error.statusCode).json({
             success: false,
             data: {},
             err: error,
@@ -82,7 +83,7 @@ const getRestaurant = async (req, res) => {
 const getAllRestaurant = async (req, res) => {
     try {
         const restaurant = await restaurantService.getAllRestaurants(req.params.id);
-        return res.status(200).json({
+        return res.status(StatusCodes.ACCEPTED).json({
             success: true,
             data: restaurant,
             err: {},
@@ -90,7 +91,7 @@ const getAllRestaurant = async (req, res) => {
         });
     } catch(error) {
         console.log(error);
-        return res.status(500).json({
+        return res.status(error.statusCode).json({
             success: false,
             data: {},
             err: error,

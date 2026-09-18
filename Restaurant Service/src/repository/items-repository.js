@@ -1,4 +1,4 @@
-const Items = require('../models/items');
+const {Items} = require('../models');
 
 class ItemsRepository {
     async createItem(data) {

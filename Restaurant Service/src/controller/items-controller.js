@@ -1,18 +1,19 @@
 const ItemService = require('../service/items-service');
+const {StatusCodes} = require('http-status-codes');
 
 const itemService = new ItemService();
 
 const createItem = async (req, res) => {
     try {
         const item = await itemService.createItem(req.body);
-        return res.status(201).json({
+        return res.status(StatusCodes.ACCEPTED).json({
             success: true,
             data: item,
             err: {},
             message: 'Item created successfully',
         });
     } catch (error) {
-        return res.status(500).json({
+        return res.status(error.statusCode).json({
             success: false,
             data: {},
             err: error,
@@ -24,14 +25,14 @@ const createItem = async (req, res) => {
 const destroyItem = async (req, res) => {
     try {
         await itemService.deleteItem(req.params.id);
-        return res.status(200).json({
+        return res.status(StatusCodes.ACCEPTED).json({
             success: true,
             data: {},
             err: {},
             message: 'Item deleted successfully',
         });
     } catch (error) {
-        return res.status(500).json({
+        return res.status(error.statusCode).json({
             success: false,
             data: {},
             err: error,
@@ -43,14 +44,14 @@ const destroyItem = async (req, res) => {
 const updateItem = async (req, res) => {
     try {
         const item = await itemService.updateItem(req.params.id, req.body);
-        return res.status(200).json({
+        return res.status(StatusCodes.ACCEPTED).json({
             success: true,
             data: item,
             err: {},
             message: 'Item updated successfully'
         });
     } catch(error) {
-        return res.status(500).json({
+        return res.status(error.statusCode).json({
             success: false,
             data: {},
             err: error,
@@ -62,14 +63,14 @@ const updateItem = async (req, res) => {
 const getItem = async (req, res) => {
     try {
         const item = await itemService.getItem(req.params.id);
-        return res.status(200).json({
+        return res.status(StatusCodes.ACCEPTED).json({
             success: true,
             data: item,
             err: {},
             message: 'Item fetched successfully'
         });
     } catch(error) {
-        return res.status(500).json({
+        return res.status(error.statusCode).json({
             success: false,
             data: {},
             err: error,
@@ -81,14 +82,14 @@ const getItem = async (req, res) => {
 const getAllItem = async (req, res) => {
     try {
         const item = await itemService.getAllItem(req.params.id);
-        return res.status(200).json({
+        return res.status(StatusCodes.ACCEPTED).json({
             success: true,
             data: item,
             err: {},
             message: 'Items fetched successfully'
         });
     } catch(error) {
-        return res.status(500).json({
+        return res.status(error.statusCode).json({
             success: false,
             data: {},
             err: error,

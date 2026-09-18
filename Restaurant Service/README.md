@@ -1,1 +1,6 @@
-This service will contain the list of restaurants and items in it having rating in stars.
+This service will have the following features:
+- Restaurant CRUD
+- Add food items
+- Menu listing
+- Restaurant search
+- Restaurant owner management
