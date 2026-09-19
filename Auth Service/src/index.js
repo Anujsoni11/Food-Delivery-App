@@ -1,5 +1,5 @@
 const express = require('express');
-const PORT = 3001;
+const {PORT} = require('./config/serverConfig');
 
 const app = express();
 
