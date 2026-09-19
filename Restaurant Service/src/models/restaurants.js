@@ -19,17 +19,21 @@ module.exports = (sequelize, DataTypes) => {
   }
   Restaurants.init({
     name: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     location: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     rating: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+      type: DataTypes.FLOAT,
+      allowNull: false,
+      validate: {
+        min: 0,
+        max: 5
       }
+    }
   }, {
     sequelize,
     modelName: 'Restaurants',

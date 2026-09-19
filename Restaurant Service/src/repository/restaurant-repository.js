@@ -37,9 +37,12 @@ class RestaurantRepository {
         }
     }
 
-    async getAllRestaurants() {
+    async getAllRestaurants(ltNumber, offset) {
         try {
-            const restaurants = await Restaurants.findAll();
+            const restaurants = await Restaurants.findAndCountAll({
+                limit: ltNumber,
+                offset: offset
+            });
             return restaurants;
         } catch (error) {
             throw new Error('Error fetching restaurants');

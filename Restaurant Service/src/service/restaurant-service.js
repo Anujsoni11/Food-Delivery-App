@@ -40,9 +40,12 @@ class RestaurantService {
         }
     }
 
-    async getAllRestaurants() {
+    async getAllRestaurants(page, limit) {
         try {
-            const restaurants = await this.restaurantRepository.getAllRestaurants();
+            const pageNumber = Number(page);
+            const limitNumber = Number(limit);
+            const offset = (pageNumber - 1) * limitNumber;
+            const restaurants = await this.restaurantRepository.getAllRestaurants(limitNumber, offset);
             return restaurants;
         } catch (error) {
             throw new Error('Service layer error');

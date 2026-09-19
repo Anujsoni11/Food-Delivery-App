@@ -36,9 +36,15 @@ class ItemsRepository {
         }
     }
 
-    async getAllItems() {
+    async getAllItems(ltNumber, offset, restaurantId) {
         try {
-            const items = await Items.findAll();
+            const items = await Items.findAndCountAll({
+                where: {
+                    id: restaurantId
+                },
+                limit: ltNumber,
+                offset: offset
+            });
             return items;
         } catch (error) {
             throw new Error('Error fetching items');

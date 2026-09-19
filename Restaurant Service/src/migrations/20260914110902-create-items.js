@@ -22,8 +22,12 @@ module.exports = {
         allowNull: false
       },
       rating: {
-        type: Sequelize.INTEGER,
-        allowNull: false
+        type: Sequelize.FLOAT,
+        allowNull: false,
+        validate: {
+          min: 0,
+          max: 5
+        }
       },
       restaurantId: {
         type: Sequelize.INTEGER,

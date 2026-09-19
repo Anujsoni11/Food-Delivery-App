@@ -40,9 +40,12 @@ class ItemService {
         }
     }
 
-    async getAllItems() {
+    async getAllItems(page, limit, restaurantId) {
         try {
-            const items = await this.itemRepository.getAllItems();
+            const pageNumber = Number(page);
+            const limitNumber = Number(limit);
+            const offset = (pageNumber - 1) * limitNumber;
+            const items = await this.itemRepository.getAllItems(limitNumber, offset, restaurantId);
             return items;
         } catch (error) {
             throw new Error('EService layer error');

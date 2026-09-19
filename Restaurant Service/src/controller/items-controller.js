@@ -81,7 +81,8 @@ const getItem = async (req, res) => {
 
 const getAllItem = async (req, res) => {
     try {
-        const item = await itemService.getAllItem(req.params.id);
+        const {page, limit} = req.query;
+        const item = await itemService.getAllItem({page, limit});
         return res.status(StatusCodes.ACCEPTED).json({
             success: true,
             data: item,

@@ -19,25 +19,29 @@ module.exports = (sequelize, DataTypes) => {
   }
   Items.init({
     name: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     description: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     price: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      },
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     rating: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      },
-    restaurantId: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+      type: DataTypes.FLOAT,
+      allowNull: false,
+      validate: {
+        min: 0,
+        max: 5
       }
+    },
+    restaurantId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'Items',
