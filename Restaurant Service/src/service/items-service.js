@@ -48,7 +48,8 @@ class ItemService {
             const items = await this.itemRepository.getAllItems(limitNumber, offset, restaurantId);
             return items;
         } catch (error) {
-            throw new Error('EService layer error');
+            console.log(error);
+            throw new Error('Service layer error');
         }
     }
 }

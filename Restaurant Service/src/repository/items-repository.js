@@ -40,13 +40,14 @@ class ItemsRepository {
         try {
             const items = await Items.findAndCountAll({
                 where: {
-                    id: restaurantId
+                    restaurantId: restaurantId
                 },
                 limit: ltNumber,
                 offset: offset
             });
             return items;
         } catch (error) {
+            console.log(error);
             throw new Error('Error fetching items');
         }
     }

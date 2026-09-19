@@ -83,7 +83,7 @@ const getRestaurant = async (req, res) => {
 const getAllRestaurant = async (req, res) => {
     try {
         const {page, limit} = req.query;
-        const restaurant = await restaurantService.getAllRestaurants(page, limit, req.params.id);
+        const restaurant = await restaurantService.getAllRestaurants(page, limit);
         return res.status(StatusCodes.ACCEPTED).json({
             success: true,
             data: restaurant,

@@ -82,7 +82,7 @@ const getItem = async (req, res) => {
 const getAllItem = async (req, res) => {
     try {
         const {page, limit} = req.query;
-        const item = await itemService.getAllItem({page, limit});
+        const item = await itemService.getAllItems(page, limit, req.params.restaurantId);
         return res.status(StatusCodes.ACCEPTED).json({
             success: true,
             data: item,
@@ -90,6 +90,7 @@ const getAllItem = async (req, res) => {
             message: 'Items fetched successfully'
         });
     } catch(error) {
+        console.log(error);
         return res.status(error.statusCode).json({
             success: false,
             data: {},
