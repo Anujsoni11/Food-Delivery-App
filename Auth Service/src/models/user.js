@@ -14,27 +14,29 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   User.init({
-    Username: {
+    username: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    Email: {
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    password: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    Password: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    PhoneNumber: {
+    phoneNumber: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      unqiue: true
     },
-    Location: {
+    location: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    Role: {
+    role: {
       type: DataTypes.ENUM(
         'User',
         'Admin',

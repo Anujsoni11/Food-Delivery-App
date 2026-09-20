@@ -9,27 +9,29 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      Username: {
+      username: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      Email: {
+      email: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true
+      },
+      password: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      Password: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      PhoneNumber: {
+      phoneNumber: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        unique: true
       },
-      Location: {
+      location: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      Role: {
+      role: {
         type: Sequelize.ENUM(
           'User',
           'Admin',
