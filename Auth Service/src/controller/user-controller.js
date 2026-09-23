@@ -60,7 +60,7 @@ const update = async (req, res) => {
     }
 };
 
-const signUp = async(req, res) => {
+const signUp = async (req, res) => {
     try {
         const response = await userService.signUp(req.body);
         return res.status(200).json({
@@ -80,7 +80,7 @@ const signUp = async(req, res) => {
     }
 };
 
-const login = async(req, res) => {
+const login = async (req, res) => {
     try {
         const response = await userService.login(req.body.username, req.body.password);
         return res.status(200).json({
@@ -99,7 +99,7 @@ const login = async(req, res) => {
     }
 };
 
-const isAuthenticated = async(req, res) => {
+const isAuthenticated = async (req, res) => {
     try {
         const token = req.headers['x-access-token'];
         const response = await userService.isAuthenticated(token);
@@ -120,11 +120,32 @@ const isAuthenticated = async(req, res) => {
     }
 }
 
+const isAdmin = async (req, res) => {
+    try {
+        const response = await userService.isAdmin(req.body.id);
+        return res.status(200).json({
+            success: true,
+            err: {},
+            data: response,
+            message: 'Successfully fetched whether user is admin or not'
+        })
+    } catch (error) {
+        console.log("Something went wrong in the controller layer");
+        return res.status(500).json({
+            success: false,
+            data: {},
+            err: error,
+            message: 'Something went wrong'
+        });
+    }
+}
+
 module.exports = {
     // create,
     destroy,
     update,
     signUp,
     login,
-    isAuthenticated
+    isAuthenticated,
+    isAdmin
 }

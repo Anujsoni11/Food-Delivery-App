@@ -11,4 +11,6 @@ router.post('/user/login', userController.login);
 
 router.get('/isAuthenticated', userController.isAuthenticated);
 
+router.get('/isAdmin', userController.isAdmin);
+
 module.exports = router;
