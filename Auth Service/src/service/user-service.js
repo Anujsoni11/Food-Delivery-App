@@ -66,12 +66,39 @@ class UserService {
         }
     }
 
+    async isAuthenticated(token) {
+        try {
+            const response = await this.verifyToken(token);
+            if (!response) {
+                throw { error: 'Invalid token' }
+            }
+            const user = await this.userRepository.getById(response.userId);
+            if (!user) {
+                throw { error: 'No user with corresponding token exists' };
+            }
+            return user.id;
+        } catch (error) {
+            console.log('Service layer error');
+            throw error;
+        }
+    }
+
     async createToken(user) {
         try {
             const token = await jwt.sign(user, SECRET_KEY, { expiresIn: '1h' });
             return token;
         } catch (error) {
-            console.log('Service layer error');
+            console.log('Something went wrong in token creation');
+            throw error;
+        }
+    }
+
+    async verifyToken(token) {
+        try {
+            const response = jwt.verify(token, SECRET_KEY);
+            return response;
+        } catch (error) {
+            console.log('Something went wrong in token verification');
             throw error;
         }
     }

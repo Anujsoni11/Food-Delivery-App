@@ -39,7 +39,17 @@ class UserRepository {
 
     async getByUsername(username) {
         try {
-            const user = await User.findOne({ where: { username } });
+            const user = await User.findOne({ where: { username: username } });
+            return user;
+        } catch (error) {
+            console.log('Something went wrong');
+            throw error;
+        }
+    }
+
+    async getById(id) {
+        try {
+            const user = await User.findByPk(id);
             return user;
         } catch (error) {
             console.log('Something went wrong');

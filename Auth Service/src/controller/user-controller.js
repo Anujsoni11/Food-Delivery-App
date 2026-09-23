@@ -99,10 +99,32 @@ const login = async(req, res) => {
     }
 };
 
+const isAuthenticated = async(req, res) => {
+    try {
+        const token = req.headers['x-access-token'];
+        const response = await userService.isAuthenticated(token);
+        return res.status(200).json({
+            success: true,
+            data: response,
+            err: {},
+            message: 'Successfully isAuthenticated'
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            data: {},
+            err: error,
+            message: 'Controller layer error'
+        });
+    }
+}
+
 module.exports = {
     // create,
     destroy,
     update,
     signUp,
-    login
+    login,
+    isAuthenticated
 }
