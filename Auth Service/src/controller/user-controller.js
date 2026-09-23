@@ -2,25 +2,25 @@ const UserService = require('../service/user-service');
 
 const userService = new UserService();
 
-const create = async (req, res) => {
-    try {
-        const response = await userService.create(req.body);
-        return res.status(200).json({
-            success: true,
-            data: response,
-            err: {},
-            message: 'Successfully created a user'
-        });
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            success: false,
-            data: {},
-            err: error,
-            message: 'Controller layer error'
-        });
-    }
-};
+// const create = async (req, res) => {
+//     try {
+//         const response = await userService.create(req.body);
+//         return res.status(200).json({
+//             success: true,
+//             data: response,
+//             err: {},
+//             message: 'Successfully created a user'
+//         });
+//     } catch (error) {
+//         console.log(error);
+//         return res.status(500).json({
+//             success: false,
+//             data: {},
+//             err: error,
+//             message: 'Controller layer error'
+//         });
+//     }
+// };
 
 const destroy = async (req, res) => {
     try {
@@ -60,8 +60,49 @@ const update = async (req, res) => {
     }
 };
 
+const signUp = async(req, res) => {
+    try {
+        const response = await userService.signUp(req.body);
+        return res.status(200).json({
+            success: true,
+            data: response,
+            err: {},
+            message: 'Successfully signed up'
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            data: {},
+            err: error,
+            message: 'Controller layer error'
+        });
+    }
+};
+
+const login = async(req, res) => {
+    try {
+        const response = await userService.login(req.body.username, req.body.password);
+        return res.status(200).json({
+            success: true,
+            data: response,
+            err: {},
+            message: 'Successfully logged In'
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            data: {},
+            err: error,
+            message: 'Controller layer error'
+        });
+    }
+};
+
 module.exports = {
-    create,
+    // create,
     destroy,
-    update
+    update,
+    signUp,
+    login
 }
