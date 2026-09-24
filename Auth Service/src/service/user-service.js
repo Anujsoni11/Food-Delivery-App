@@ -83,9 +83,9 @@ class UserService {
         }
     }
 
-    async isAdmin(userId) {
+    async isAdmin(id) {
         try {
-            return this.userRepository.isAdmin(userId);
+            return this.userRepository.isAdmin(id);
         } catch (error) {
             console.log('Something went wrong in token creation');
             throw error;

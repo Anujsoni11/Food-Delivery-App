@@ -1,4 +1,5 @@
 const UserService = require('../service/user-service');
+const { StatusCodes } = require('http-status-codes');
 
 const userService = new UserService();
 
@@ -25,14 +26,14 @@ const userService = new UserService();
 const destroy = async (req, res) => {
     try {
         const response = await userService.destroy(req.params.id);
-        return res.status(200).json({
+        return res.status(StatusCodes.ACCEPTED).json({
             success: true,
             data: response,
             err: {},
             message: 'Successfully deleted a user'
         });
     } catch (error) {
-        return res.status(500).json({
+        return res.status(error.statusCode).json({
             success: false,
             data: {},
             err: error,
@@ -44,14 +45,14 @@ const destroy = async (req, res) => {
 const update = async (req, res) => {
     try {
         const response = await userService.update(req.body, req.params.id);
-        return res.status(200).json({
+        return res.status(StatusCodes.ACCEPTED).json({
             success: true,
             data: response,
             err: {},
             message: 'Successfully updated a user'
         });
     } catch (error) {
-        return res.status(500).json({
+        return res.status(error.statusCode).json({
             success: false,
             data: {},
             err: error,
@@ -63,7 +64,7 @@ const update = async (req, res) => {
 const signUp = async (req, res) => {
     try {
         const response = await userService.signUp(req.body);
-        return res.status(200).json({
+        return res.status(StatusCodes.ACCEPTED).json({
             success: true,
             data: response,
             err: {},
@@ -71,7 +72,7 @@ const signUp = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        return res.status(500).json({
+        return res.status(error.statusCode).json({
             success: false,
             data: {},
             err: error,
@@ -83,14 +84,14 @@ const signUp = async (req, res) => {
 const login = async (req, res) => {
     try {
         const response = await userService.login(req.body.username, req.body.password);
-        return res.status(200).json({
+        return res.status(StatusCodes.ACCEPTED).json({
             success: true,
             data: response,
             err: {},
             message: 'Successfully logged In'
         });
     } catch (error) {
-        return res.status(500).json({
+        return res.status(error.statusCode).json({
             success: false,
             data: {},
             err: error,
@@ -103,7 +104,7 @@ const isAuthenticated = async (req, res) => {
     try {
         const token = req.headers['x-access-token'];
         const response = await userService.isAuthenticated(token);
-        return res.status(200).json({
+        return res.status(StatusCodes.ACCEPTED).json({
             success: true,
             data: response,
             err: {},
@@ -111,7 +112,7 @@ const isAuthenticated = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        return res.status(500).json({
+        return res.status(error.statusCode).json({
             success: false,
             data: {},
             err: error,
@@ -123,15 +124,24 @@ const isAuthenticated = async (req, res) => {
 const isAdmin = async (req, res) => {
     try {
         const response = await userService.isAdmin(req.body.id);
-        return res.status(200).json({
+        if(response) {
+            return res.status(StatusCodes.ACCEPTED).json({
             success: true,
             err: {},
             data: response,
-            message: 'Successfully fetched whether user is admin or not'
+            message: 'Successfully fetched, User is admin'
         })
+        } else {
+            return res.status(StatusCodes.ACCEPTED).json({
+            success: true,
+            err: {},
+            data: response,
+            message: 'Successfully fetched, User is not the admin'
+        })
+        }
     } catch (error) {
         console.log("Something went wrong in the controller layer");
-        return res.status(500).json({
+        return res.status(error.statusCode).json({
             success: false,
             data: {},
             err: error,
