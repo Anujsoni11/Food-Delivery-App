@@ -16,14 +16,18 @@ module.exports = {
       email: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
+        validate: {
+          isEmail: true
+        }
       },
       password: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        len: [5, 8]
       },
       phoneNumber: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING(10),
         allowNull: false,
         unique: true
       },
