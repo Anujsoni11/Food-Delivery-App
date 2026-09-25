@@ -1,3 +1,4 @@
 module.exports = {
-    OrderController: require('./order-controller')
+    OrderController: require('./order-controller'),
+    OrderItemController: require('./orderItem-controller')
 }

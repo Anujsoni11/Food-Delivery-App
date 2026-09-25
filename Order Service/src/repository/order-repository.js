@@ -1,4 +1,4 @@
-const { Order } = require('../models/index');
+const { Order } = require('../models');
 
 class OrderRepository {
     async create(data) {
