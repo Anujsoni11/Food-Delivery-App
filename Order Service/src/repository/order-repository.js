@@ -13,7 +13,11 @@ class OrderRepository {
 
     async destroy(id) {
         try {
-            return await Order.destroy(id);
+            return await Order.destroy({
+                where: {
+                    id: id
+                }
+            });
         } catch (error) {
             console.log('Something went wrong');
             throw error;
@@ -27,7 +31,8 @@ class OrderRepository {
                     id: id
                 }
             });
-            return order;
+            const updatedOrder = await Order.findByPk(id);
+            return updatedOrder;
         } catch (error) {
             console.log('Something went wrong');
             throw error;

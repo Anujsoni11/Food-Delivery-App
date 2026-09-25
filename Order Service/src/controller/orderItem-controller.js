@@ -4,7 +4,7 @@ const orderItemService = new OrderItemService();
 
 const createItem = async (req, res) => {
     try {
-        const order = await orderItemService.create(req.body);
+        const response = await orderItemService.create(req.body);
         return res.status(200).json({
             success: true,
             data: response,
@@ -12,6 +12,7 @@ const createItem = async (req, res) => {
             message: 'Successfully created a orderItem'
         });
     } catch (error) {
+        console.log(error);
         return res.status(500).json({
             success: false,
             data: {},
@@ -23,7 +24,7 @@ const createItem = async (req, res) => {
 
 const destroyItem = async (req, res) => {
     try {
-        const response = await orderItemService.destroy(req.body.id);
+        const response = await orderItemService.destroy(req.params.itemId);
         return res.status(200).json({
             success: true,
             data: response,
@@ -42,7 +43,7 @@ const destroyItem = async (req, res) => {
 
 const updateItem = async (req, res) => {
     try {
-        const response = await orderItemService.update(req.body, req.body.id);
+        const response = await orderItemService.update(req.body, req.params.itemId);
         return res.status(200).json({
             success: true,
             data: response,
@@ -61,7 +62,7 @@ const updateItem = async (req, res) => {
 
 const getItem = async (req, res) => {
     try {
-        const response = await orderItemService.get(req.body.id);
+        const response = await orderItemService.get(req.params.itemId);
         return res.status(200).json({
             success: true,
             data: response,

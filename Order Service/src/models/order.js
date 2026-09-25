@@ -28,7 +28,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     totalAmount: {
       type: DataTypes.FLOAT,
-      allowNull: false
+      allowNull: false,
+      defaultValue: 0
     },
     status: {
       type: DataTypes.ENUM(
@@ -38,8 +39,7 @@ module.exports = (sequelize, DataTypes) => {
         'OutForDelivery',
         'Delivered',
         'Cancelled'
-      ),
-      allowNull: false
+      )
     },
     deliveryAddress: {
       type: DataTypes.STRING,
