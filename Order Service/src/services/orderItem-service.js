@@ -1,14 +1,31 @@
 const OrderItemRepository = require('../repository/orderItem-repository');
+const OrderRepository = require('../repository/order-repository');
 
 class OrderItemService {
     constructor() {
         this.orderItemRepository = new OrderItemRepository();
+        this.orderRepository = new OrderRepository();
     }
 
-    async create(data) {
+    async create(data, id) {
         try {
-            const orderItem = await this.orderItemRepository.create(data);
-            return orderItem;
+            console.log("SERVICE DATA:", data);
+            console.log("SERVICE IS ARRAY:", Array.isArray(data));
+
+            const order = await this.orderRepository.get(id);
+            if (order.status === 'Pending') {
+                const finalData = data.map((item) => {
+                    return {
+                        ...item,
+                        orderId: id
+                    };
+                });
+                const createdItems = await this.orderItemRepository.bulkCreate(finalData);
+                return createdItems;
+            }
+            else {
+                throw new Error("Can't add items in a cancelled or delivered order");
+            }
         } catch (error) {
             console.log('Service layer error');
             throw error;

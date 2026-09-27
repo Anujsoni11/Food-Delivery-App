@@ -12,15 +12,20 @@ class OrderService {
             const { items, ...orderData } = data;
             const order = await this.orderRepository.create(orderData);
             const orderId = order.id;
-            const createdItems = [];
-            let i = 0;
-            for(i=0; i<items.length; i++) {
-                items[i].orderId = orderId;
-                order.totalAmount += items[i].price;
-                createdItems[i] = await this.orderItemRepository.create(items[i]);
-            }
-            const finalOrder = { order, items: createdItems};
+            const orderItems = items.map((item) => {
+                return {
+                    ...item,
+                    orderId: orderId
+                };
+            });
+
+            const createdItems = await this.orderItemRepository.bulkCreate(orderItems);
+            const finalOrder = {
+                order,
+                items: createdItems
+            };
             return finalOrder;
+
         } catch (error) {
             console.log('Service layer error');
             throw error;
@@ -29,7 +34,9 @@ class OrderService {
 
     async destroy(id) {
         try {
-            return await this.orderRepository.destroy(id);
+            const order = await this.orderRepository.destroy(id);
+            order.status = 'Cancelled';
+            return order;
         } catch (error) {
             console.log('Service layer error');
             throw error;
@@ -40,6 +47,30 @@ class OrderService {
         try {
             const order = await this.orderRepository.update(data, id);
             return order;
+        } catch (error) {
+            console.log('Service layer error');
+            throw error;
+        }
+    }
+
+    async updateStatus(newStatus, id) {
+        try {
+            const allowedTransitions = {
+                Pending: ["Confirmed", "Cancelled"],
+                Confirmed: ["Preparing", "Cancelled"],
+                Preparing: ["OutForDelivery"],
+                OutForDelivery: ["Delivered"],
+                Delivered: [],
+                Cancelled: []
+            };
+            const order = await this.orderRepository.get(id);
+            if(allowedTransitions[order.status].includes(newStatus)) {
+                const updatedOrder = await this.orderRepository.update({ status: newStatus }, id);
+                return updatedOrder;
+            } else {
+                console.log("Can't update the order");
+                throw error;
+            }
         } catch (error) {
             console.log('Service layer error');
             throw error;

@@ -9,6 +9,8 @@ router.patch('/orders/:id', OrderController.update);
 router.get('/orders/:id', OrderController.get);
 router.get('/orders', OrderController.getAll);
 
+router.post('/orders/:id/status', OrderController.updateStatus);
+
 router.post('/orders/:id/items', OrderItemController.createItem);
 router.delete('/orders/:id/items/:itemId', OrderItemController.destroyItem);
 router.patch('/orders/:id/items/:itemId', OrderItemController.updateItem);

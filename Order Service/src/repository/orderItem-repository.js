@@ -3,8 +3,18 @@ const { OrderItem } = require('../models');
 class OrderItemRepository {
     async create(data) {
         try {
-            const order = await OrderItem.create(data);
-            return order;
+            const orderItem = await OrderItem.create(data);
+            return orderItem;
+        } catch (error) {
+            console.log('Something went wrong');
+            throw error;
+        }
+    }
+
+    async bulkCreate(data) {
+        try {
+            const orderItem = await OrderItem.bulkCreate(data);
+            return orderItem;
         } catch (error) {
             console.log('Something went wrong');
             throw error;
@@ -26,7 +36,7 @@ class OrderItemRepository {
 
     async update(data, id) {
         try {
-            const order = await OrderItem.update(data, {
+            const orderItem = await OrderItem.update(data, {
                 where: {
                     id: id
                 }
@@ -41,8 +51,8 @@ class OrderItemRepository {
 
     async get(id) {
         try {
-            const order = await OrderItem.findByPk(id);
-            return order;
+            const orderItem = await OrderItem.findByPk(id);
+            return orderItem;
         } catch (error) {
             console.log('Something went wrong');
             throw error;
@@ -51,8 +61,8 @@ class OrderItemRepository {
 
     async getAll() {
         try {
-            const orders = await OrderItem.findAll();
-            return orders;
+            const orderItems = await OrderItem.findAll();
+            return orderItems;
         } catch (error) {
             console.log('Something went wrong');
             throw error;

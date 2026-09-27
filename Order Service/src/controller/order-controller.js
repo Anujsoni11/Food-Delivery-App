@@ -60,6 +60,25 @@ const update = async (req, res) => {
     }
 };
 
+const updateStatus = async (req, res) => {
+    try {
+        const response = await orderService.updateStatus(req.body.status, req.params.id);
+        return res.status(200).json({
+            success: true,
+            data: response,
+            err: {},
+            message: 'Successfully updated a order'
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            data: {},
+            err: error,
+            message: 'Controller layer error'
+        });
+    }
+}
+
 const get = async (req, res) => {
     try {
         const response = await orderService.get(req.params.id);
@@ -102,6 +121,7 @@ module.exports = {
     create,
     destroy,
     update,
+    updateStatus,
     get,
     getAll
 }

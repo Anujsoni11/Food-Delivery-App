@@ -4,12 +4,15 @@ const orderItemService = new OrderItemService();
 
 const createItem = async (req, res) => {
     try {
-        const response = await orderItemService.create(req.body);
+        console.log("CONTROLLER BODY:", req.body);
+        console.log("IS ARRAY:", Array.isArray(req.body));
+        
+        const response = await orderItemService.create(req.body, req.params.id);
         return res.status(200).json({
             success: true,
             data: response,
             err: {},
-            message: 'Successfully created a orderItem'
+            message: 'Successfully created a Item'
         });
     } catch (error) {
         console.log(error);
@@ -29,7 +32,7 @@ const destroyItem = async (req, res) => {
             success: true,
             data: response,
             err: {},
-            message: 'Successfully deleted a orderItem'
+            message: 'Successfully deleted a Item'
         });
     } catch (error) {
         return res.status(500).json({
@@ -48,7 +51,7 @@ const updateItem = async (req, res) => {
             success: true,
             data: response,
             err: {},
-            message: 'Successfully updated a orderItem'
+            message: 'Successfully updated a Item'
         });
     } catch (error) {
         return res.status(500).json({
@@ -67,7 +70,7 @@ const getItem = async (req, res) => {
             success: true,
             data: response,
             err: {},
-            message: 'Successfully fetched a orderItem'
+            message: 'Successfully fetched a Item'
         });
     } catch (error) {
         return res.status(500).json({
@@ -86,7 +89,7 @@ const getAllItem = async (req, res) => {
             success: true,
             data: response,
             err: {},
-            message: 'Successfully fetched all order Items'
+            message: 'Successfully fetched all Items'
         });
     } catch (error) {
         return res.status(500).json({
