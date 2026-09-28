@@ -100,7 +100,7 @@ const get = async (req, res) => {
 
 const getAll = async (req, res) => {
     try {
-        const response = await orderService.getAll();
+        const response = await orderService.getAll(req.query.page, req.query.limit);
         return res.status(200).json({
             success: true,
             data: response,

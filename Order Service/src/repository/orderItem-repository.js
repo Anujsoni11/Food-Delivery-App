@@ -13,7 +13,9 @@ class OrderItemRepository {
 
     async bulkCreate(data) {
         try {
-            const orderItem = await OrderItem.bulkCreate(data);
+            const orderItem = await OrderItem.bulkCreate(data, {
+                validate: true
+            });
             return orderItem;
         } catch (error) {
             console.log('Something went wrong');
@@ -59,9 +61,15 @@ class OrderItemRepository {
         }
     }
 
-    async getAll() {
+    async getAll(ltNumber, offset, orderId) {
         try {
-            const orderItems = await OrderItem.findAll();
+            const orderItems = await OrderItem.findAndCountAll({
+                where: {
+                    id: orderId
+                },
+                limit: ltNumber,
+                offset: offset
+            });
             return orderItems;
         } catch (error) {
             console.log('Something went wrong');

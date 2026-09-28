@@ -49,9 +49,12 @@ class OrderRepository {
         }
     }
 
-    async getAll() {
+    async getAll(ltNumber, offset) {
         try {
-            const orders = await Order.findAll();
+            const orders = await Order.findAndCountAll({
+                limit: ltNumber,
+                offset: offset
+            });
             return orders;
         } catch (error) {
             console.log('Something went wrong');

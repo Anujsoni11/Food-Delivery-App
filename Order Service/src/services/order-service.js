@@ -94,11 +94,15 @@ class OrderService {
         }
     }
 
-    async getAll() {
+    async getAll(page, limit) {
         try {
-            const orders = await this.orderRepository.getAll();
+            const pageNumber = Number(page);
+            const limitNumber = Number(limit);
+            const offset = (pageNumber - 1) * limitNumber;
+            const orders = await this.orderRepository.getAll(limitNumber, offset);
             return orders;
         } catch (error) {
+            console.log(error);
             console.log('Service layer error');
             throw error;
         }

@@ -9,9 +9,6 @@ class OrderItemService {
 
     async create(data, id) {
         try {
-            console.log("SERVICE DATA:", data);
-            console.log("SERVICE IS ARRAY:", Array.isArray(data));
-
             const order = await this.orderRepository.get(id);
             if (order.status === 'Pending') {
                 const finalData = data.map((item) => {
@@ -61,11 +58,15 @@ class OrderItemService {
         }
     }
 
-    async getAll() {
+    async getAll(page, limit, orderId) {
         try {
-            const orderItems = await this.orderItemRepository.getAll();
+            const pageNumber = Number(page);
+            const limitNumber = Number(limit);
+            const offset = (pageNumber - 1) * limitNumber;
+            const orderItems = await this.orderItemRepository.getAll(limitNumber, offset, orderId);
             return orderItems;
         } catch (error) {
+            console.log(error);
             console.log('Service layer error');
             throw error;
         }

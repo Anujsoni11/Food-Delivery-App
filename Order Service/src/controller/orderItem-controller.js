@@ -4,9 +4,6 @@ const orderItemService = new OrderItemService();
 
 const createItem = async (req, res) => {
     try {
-        console.log("CONTROLLER BODY:", req.body);
-        console.log("IS ARRAY:", Array.isArray(req.body));
-        
         const response = await orderItemService.create(req.body, req.params.id);
         return res.status(200).json({
             success: true,
@@ -15,7 +12,6 @@ const createItem = async (req, res) => {
             message: 'Successfully created a Item'
         });
     } catch (error) {
-        console.log(error);
         return res.status(500).json({
             success: false,
             data: {},
@@ -84,7 +80,7 @@ const getItem = async (req, res) => {
 
 const getAllItem = async (req, res) => {
     try {
-        const response = await orderItemService.getAll();
+        const response = await orderItemService.getAll(req.query.page, req.query.limit, req.params.id);
         return res.status(200).json({
             success: true,
             data: response,
