@@ -25,7 +25,7 @@ const validateSignup = (req, res, next) => {
                 success: false,
                 data: {},
                 message: 'Something went wrong',
-                err: 'Provided information is incorrect'
+                err: 'Provided information is insufficient'
             });
         }
     }

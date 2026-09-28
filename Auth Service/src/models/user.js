@@ -28,12 +28,18 @@ module.exports = (sequelize, DataTypes) => {
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        len: [8, 100]
+      }
     },
     phoneNumber: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
+      validate: {
+        is: /^[0-9]{10}$/
+      }
     },
     location: {
       type: DataTypes.STRING,

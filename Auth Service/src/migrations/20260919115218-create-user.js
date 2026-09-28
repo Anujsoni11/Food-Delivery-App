@@ -20,8 +20,7 @@ module.exports = {
       },
       password: {
         type: Sequelize.STRING,
-        allowNull: false,
-        len: [5, 8]
+        allowNull: false
       },
       phoneNumber: {
         type: Sequelize.STRING(10),

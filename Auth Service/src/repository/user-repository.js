@@ -57,6 +57,26 @@ class UserRepository {
         }
     }
 
+    async getByEmail(email) {
+        try {
+            const user = await User.findOne({ where: { email: email } });
+            return user;
+        } catch (error) {
+            console.log('Something went wrong');
+            throw error;
+        }
+    }
+
+    async getByPN(phoneNumber) {
+        try {
+            const user = await User.findOne({ where: { phoneNumber: phoneNumber } });
+            return user;
+        } catch (error) {
+            console.log('Something went wrong');
+            throw error;
+        }
+    }
+
     async isAdmin(id) {
         try {
             const user = await User.findByPk(id);

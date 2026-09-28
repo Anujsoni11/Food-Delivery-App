@@ -40,12 +40,19 @@ class UserService {
 
     async signUp(data) {
         try {
+            if (data.password.length < 8) {
+                throw new Error('Password must be at least 8 characters');
+            }
+            const userEmail = await this.userRepository.getByEmail(data.email);
+            const userPNo = await this.userRepository.getByPN(data.phoneNumber);
+            if (userEmail || userPNo) {
+                throw new Error('Email or Phone number already exists');
+            }
             const hashedPassword = await bcrypt.hash(data.password, SALT);
             data.password = hashedPassword;
             const user = await this.userRepository.create(data);
             return user;
         } catch (error) {
-            console.log(error);
             console.log('Service layer error');
             throw error;
         }

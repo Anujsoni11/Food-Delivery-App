@@ -33,7 +33,7 @@ const destroy = async (req, res) => {
             message: 'Successfully deleted a user'
         });
     } catch (error) {
-        return res.status(error.statusCode).json({
+        return res.status(error.statusCode || 500).json({
             success: false,
             data: {},
             err: error,
@@ -52,7 +52,7 @@ const update = async (req, res) => {
             message: 'Successfully updated a user'
         });
     } catch (error) {
-        return res.status(error.statusCode).json({
+        return res.status(error.statusCode || 500).json({
             success: false,
             data: {},
             err: error,
@@ -72,7 +72,7 @@ const signUp = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        return res.status(error.statusCode).json({
+        return res.status(error.statusCode || 500).json({
             success: false,
             data: {},
             err: error,
@@ -91,7 +91,7 @@ const login = async (req, res) => {
             message: 'Successfully logged In'
         });
     } catch (error) {
-        return res.status(error.statusCode).json({
+        return res.status(error.statusCode || 500).json({
             success: false,
             data: {},
             err: error,
@@ -112,7 +112,7 @@ const isAuthenticated = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        return res.status(error.statusCode).json({
+        return res.status(error.statusCode || 500).json({
             success: false,
             data: {},
             err: error,
@@ -141,11 +141,11 @@ const isAdmin = async (req, res) => {
         }
     } catch (error) {
         console.log("Something went wrong in the controller layer");
-        return res.status(error.statusCode).json({
+        return res.status(error.statusCode || 500).json({
             success: false,
             data: {},
             err: error,
-            message: 'Something went wrong'
+            message: 'Controller layer error'
         });
     }
 }
