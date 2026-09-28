@@ -102,7 +102,6 @@ class OrderService {
             const orders = await this.orderRepository.getAll(limitNumber, offset);
             return orders;
         } catch (error) {
-            console.log(error);
             console.log('Service layer error');
             throw error;
         }
