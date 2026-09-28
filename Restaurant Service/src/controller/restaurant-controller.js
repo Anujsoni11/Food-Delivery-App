@@ -13,7 +13,7 @@ const createRestaurant = async (req, res) => {
             message: 'Restaurant created successfully',
         });
     } catch (error) {
-        return res.status(error.statusCode).json({
+        return res.status(error.statusCode || 500).json({
             success: false,
             data: {},
             err: error,
@@ -32,7 +32,7 @@ const destroyRestaurant = async (req, res) => {
             message: 'Restaurant deleted successfully',
         });
     } catch (error) {
-        return res.status(error.statusCode).json({
+        return res.status(error.statusCode || 500).json({
             success: false,
             data: {},
             err: error,
@@ -52,7 +52,7 @@ const updateRestaurant = async (req, res) => {
         });
     } catch(error) {
         console.log(error);
-        return res.status(error.statusCode).json({
+        return res.status(error.statusCode || 500).json({
             success: false,
             data: {},
             err: error,
@@ -71,7 +71,7 @@ const getRestaurant = async (req, res) => {
             message: 'Restaurant fetched successfully'
         });
     } catch(error) {
-        return res.status(error.statusCode).json({
+        return res.status(error.statusCode || 500).json({
             success: false,
             data: {},
             err: error,
@@ -92,7 +92,7 @@ const getAllRestaurant = async (req, res) => {
         });
     } catch(error) {
         console.log(error);
-        return res.status(error.statusCode).json({
+        return res.status(error.statusCode || 500).json({
             success: false,
             data: {},
             err: error,

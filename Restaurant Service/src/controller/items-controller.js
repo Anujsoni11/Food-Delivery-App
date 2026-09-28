@@ -13,7 +13,7 @@ const createItem = async (req, res) => {
             message: 'Item created successfully',
         });
     } catch (error) {
-        return res.status(error.statusCode).json({
+        return res.status(error.statusCode || 500).json({
             success: false,
             data: {},
             err: error,
@@ -32,7 +32,7 @@ const destroyItem = async (req, res) => {
             message: 'Item deleted successfully',
         });
     } catch (error) {
-        return res.status(error.statusCode).json({
+        return res.status(error.statusCode || 500).json({
             success: false,
             data: {},
             err: error,
@@ -51,7 +51,7 @@ const updateItem = async (req, res) => {
             message: 'Item updated successfully'
         });
     } catch(error) {
-        return res.status(error.statusCode).json({
+        return res.status(error.statusCode || 500).json({
             success: false,
             data: {},
             err: error,
@@ -70,7 +70,7 @@ const getItem = async (req, res) => {
             message: 'Item fetched successfully'
         });
     } catch(error) {
-        return res.status(error.statusCode).json({
+        return res.status(error.statusCode || 500).json({
             success: false,
             data: {},
             err: error,
@@ -91,7 +91,7 @@ const getAllItem = async (req, res) => {
         });
     } catch(error) {
         console.log(error);
-        return res.status(error.statusCode).json({
+        return res.status(error.statusCode || 500).json({
             success: false,
             data: {},
             err: error,
