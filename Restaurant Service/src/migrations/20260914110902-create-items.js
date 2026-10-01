@@ -29,6 +29,10 @@ module.exports = {
           max: 5
         }
       },
+      availableQuantity: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
       restaurantId: {
         type: Sequelize.INTEGER,
         allowNull: false

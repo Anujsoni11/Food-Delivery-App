@@ -71,7 +71,6 @@ const signUp = async (req, res) => {
             message: 'Successfully signed up'
         });
     } catch (error) {
-        console.log(error);
         return res.status(error.statusCode || 500).json({
             success: false,
             data: {},
@@ -108,10 +107,9 @@ const isAuthenticated = async (req, res) => {
             success: true,
             data: response,
             err: {},
-            message: 'Successfully isAuthenticated'
+            message: 'Successfully Authenticated'
         });
     } catch (error) {
-        console.log(error);
         return res.status(error.statusCode || 500).json({
             success: false,
             data: {},
@@ -124,20 +122,20 @@ const isAuthenticated = async (req, res) => {
 const isAdmin = async (req, res) => {
     try {
         const response = await userService.isAdmin(req.body.id);
-        if(response) {
+        if (response) {
             return res.status(StatusCodes.ACCEPTED).json({
-            success: true,
-            err: {},
-            data: response,
-            message: 'Successfully fetched, User is admin'
-        })
+                success: true,
+                err: {},
+                data: response,
+                message: 'Successfully fetched, User is admin'
+            })
         } else {
             return res.status(StatusCodes.ACCEPTED).json({
-            success: true,
-            err: {},
-            data: response,
-            message: 'Successfully fetched, User is not the admin'
-        })
+                success: true,
+                err: {},
+                data: response,
+                message: 'Successfully fetched, User is not the admin'
+            })
         }
     } catch (error) {
         console.log("Something went wrong in the controller layer");

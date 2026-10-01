@@ -38,6 +38,10 @@ module.exports = (sequelize, DataTypes) => {
         max: 5
       }
     },
+    availableQuantity: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     restaurantId: {
       type: DataTypes.INTEGER,
       allowNull: false

@@ -27,9 +27,14 @@ class ItemsRepository {
         }
     }
 
-    async getItemById(id) {
+    async getItemById(restaurantId, itemId) {
         try {
-            const item = await Items.findByPk(id);
+            const item = await Items.findOne({
+                where: {
+                    restaurantId: restaurantId,
+                    id: itemId
+                }
+            });
             return item;
         } catch (error) {
             throw new Error('Error fetching item');

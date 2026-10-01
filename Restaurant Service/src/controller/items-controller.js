@@ -62,19 +62,21 @@ const updateItem = async (req, res) => {
 
 const getItem = async (req, res) => {
     try {
-        const item = await itemService.getItem(req.params.id);
-        return res.status(StatusCodes.ACCEPTED).json({
+        const { restaurantId, itemId } = req.params;
+        const item = await itemService.getItem(restaurantId, itemId);
+
+        return res.status(StatusCodes.OK).json({
             success: true,
             data: item,
             err: {},
             message: 'Item fetched successfully'
         });
-    } catch(error) {
+    } catch (error) {
         return res.status(error.statusCode || 500).json({
             success: false,
             data: {},
             err: error,
-            message: 'Error fetching item',
+            message: 'Error fetching item'
         });
     }
 };
@@ -90,7 +92,6 @@ const getAllItem = async (req, res) => {
             message: 'Items fetched successfully'
         });
     } catch(error) {
-        console.log(error);
         return res.status(error.statusCode || 500).json({
             success: false,
             data: {},

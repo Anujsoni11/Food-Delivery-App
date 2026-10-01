@@ -31,9 +31,9 @@ class ItemService {
         }
     }
 
-    async getItemById(id) {
+    async getItem(restaurantId, itemId) {
         try {
-            const item = await this.itemRepository.getItemById(id);
+            const item = await this.itemRepository.getItemById(restaurantId, itemId);
             return item;
         } catch (error) {
             throw new Error('Service layer error');
@@ -48,7 +48,6 @@ class ItemService {
             const items = await this.itemRepository.getAllItems(limitNumber, offset, restaurantId);
             return items;
         } catch (error) {
-            console.log(error);
             throw new Error('Service layer error');
         }
     }
