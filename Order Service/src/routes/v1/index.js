@@ -1,9 +1,10 @@
 const express = require('express');
 const { OrderController, OrderItemController } = require('../../controller/index');
+const { OrderMiddleware }  = require('../../middleware/index');
 
 const router = express.Router();
 
-router.post('/orders', OrderController.create);
+router.post('/orders', OrderMiddleware.isAuthenticated, OrderController.create);
 router.delete('/orders/:id', OrderController.destroy);
 router.patch('/orders/:id', OrderController.update);
 router.get('/orders/:id', OrderController.get);
