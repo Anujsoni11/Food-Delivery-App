@@ -1,4 +1,4 @@
-
+const axios = require('axios');
 
 const isAuthenticated = async (req, res, next) => {
     try {
@@ -10,7 +10,11 @@ const isAuthenticated = async (req, res, next) => {
             });
         }
 
-        
+        await axios.get(`http://localhost:3001/api/v1/isAuthenticated`, {
+            headers: {
+                'x-access-token': token
+            }
+        });
         next();
     } catch (error) {
         console.log(error);
