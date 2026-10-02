@@ -42,25 +42,6 @@ const destroy = async (req, res) => {
     }
 };
 
-const cancel = async (req, res) => {
-    try {
-        const response = await orderService.cancel(req.params.id, req.userId);
-        return res.status(StatusCodes.ACCEPTED).json({
-            success: true,
-            data: response,
-            err: {},
-            message: 'Successfully cancelled a order'
-        });
-    } catch (error) {
-        return res.status(error.statusCode || 500).json({
-            success: false,
-            data: {},
-            err: error,
-            message: 'Controller layer error'
-        });
-    }
-};
-
 const update = async (req, res) => {
     try {
         const response = await orderService.update(req.body, req.params.id);
@@ -140,7 +121,6 @@ const getAll = async (req, res) => {
 module.exports = {
     create,
     destroy,
-    cancel,
     update,
     updateStatus,
     get,
