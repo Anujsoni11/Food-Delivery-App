@@ -12,6 +12,6 @@ router.post('/user/login', requestAuthValidator.validateUserAuth, userController
 
 router.get('/isAuthenticated', userController.isAuthenticated);
 
-router.get('/isAdmin', requestAuthValidator.validateIsAdminRequest, userController.isAdmin);
+router.post('/isAdmin', requestAuthValidator.validateIsAdminRequest, userController.isAdmin);
 
 module.exports = router;

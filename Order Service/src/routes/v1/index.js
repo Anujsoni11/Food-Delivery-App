@@ -9,9 +9,9 @@ router.delete('/orders/:id',OrderMiddleware.isAuthenticated, OrderController.des
 router.patch('/orders/:id/cancel', OrderMiddleware.isAuthenticated, OrderController.cancel);
 router.patch('/orders/:id', OrderMiddleware.isAuthenticated, OrderController.update);
 router.get('/orders/:id', OrderMiddleware.isAuthenticated, OrderController.get);
-router.get('/orders', OrderController.getAll);
+router.get('/orders',OrderMiddleware.isAuthenticated, OrderMiddleware.isAdmin, OrderController.getAll);
 
-router.post('/orders/:id/status', OrderController.updateStatus);
+router.post('/orders/:id/status',OrderMiddleware.isAuthenticated, OrderMiddleware.isAdmin, OrderController.updateStatus);
 
 router.post('/orders/:id/items', OrderItemController.createItem);
 router.delete('/orders/:id/items/:itemId', OrderItemController.destroyItem);

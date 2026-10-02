@@ -27,6 +27,39 @@ const isAuthenticated = async (req, res, next) => {
     }
 };
 
+const isAdmin = async (req, res, next) => {
+    try {
+        const token = req.headers['x-access-token'] || req.headers['authorization'];
+
+        const response = await axios.post(
+            'http://localhost:3001/api/v1/isAdmin', 
+            {
+                id: req.userId
+            }, {
+            headers: {
+                'x-access-token': token
+            }
+        });
+
+        console.log(response.data);
+        if (!response.data.data) {
+            return res.status(403).json({
+                success: false,
+                message: 'Access denied. Admin privileges required.'
+            });
+        }
+
+        next();
+    } catch (error) {
+        console.log(error);
+        return res.status(403).json({
+            success: false,
+            message: 'Access denied. Admin privileges required.'
+        });
+    }
+};
+
 module.exports = {
-    isAuthenticated
+    isAuthenticated,
+    isAdmin
 }
