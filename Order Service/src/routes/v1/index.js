@@ -7,8 +7,8 @@ const router = express.Router();
 router.post('/orders', OrderMiddleware.isAuthenticated, OrderController.create);
 router.delete('/orders/:id',OrderMiddleware.isAuthenticated, OrderController.destroy);
 router.patch('/orders/:id/cancel', OrderMiddleware.isAuthenticated, OrderController.cancel);
-router.patch('/orders/:id', OrderController.update);
-router.get('/orders/:id', OrderController.get);
+router.patch('/orders/:id', OrderMiddleware.isAuthenticated, OrderController.update);
+router.get('/orders/:id', OrderMiddleware.isAuthenticated, OrderController.get);
 router.get('/orders', OrderController.getAll);
 
 router.post('/orders/:id/status', OrderController.updateStatus);

@@ -83,10 +83,14 @@ class OrderService {
         }
     }
 
-    async update(data, id) {
+    async update(data, id, userId) {
         try {
-            const order = await this.orderRepository.update(data, id);
-            return order;
+            const order = await this.orderRepository.get(id);
+            if(order.userId !== userId) {
+                throw new Error("Unauthorized cannot update this order");
+            }
+            const updatedOrder = await this.orderRepository.update(data, id);
+            return updatedOrder;
         } catch (error) {
             console.error('Service layer error');
             throw error;
@@ -117,7 +121,7 @@ class OrderService {
         }
     }
 
-    async get(id) {
+    async get(id, userId) {
         try {
             const order = await this.orderRepository.get(id, {
                 include: [
@@ -127,6 +131,9 @@ class OrderService {
                     }
                 ]
             });
+            if(order.userId !== userId) {
+                throw new Error("Unauthorized cannot fetch this order");
+            }
             return order;
         } catch (error) {
             console.error('Service layer error');

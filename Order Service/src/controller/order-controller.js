@@ -63,7 +63,7 @@ const cancel = async (req, res) => {
 
 const update = async (req, res) => {
     try {
-        const response = await orderService.update(req.body, req.params.id);
+        const response = await orderService.update(req.body, req.params.id, req.userId);
         return res.status(StatusCodes.ACCEPTED).json({
             success: true,
             data: response,
@@ -101,7 +101,7 @@ const updateStatus = async (req, res) => {
 
 const get = async (req, res) => {
     try {
-        const response = await orderService.get(req.params.id);
+        const response = await orderService.get(req.params.id, req.userId);
         return res.status(StatusCodes.ACCEPTED).json({
             success: true,
             data: response,
