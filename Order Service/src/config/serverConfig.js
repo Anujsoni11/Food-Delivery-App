@@ -3,5 +3,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 module.exports = {
-    PORT: process.env.PORT
+    PORT: process.env.PORT,
+    AUTH_SERVICE_URL: process.env.AUTH_SERVICE_URL,
+    RESTAURANT_SERVICE_URL: process.env.RESTAURANT_SERVICE_URL
 }

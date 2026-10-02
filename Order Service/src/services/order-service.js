@@ -1,4 +1,5 @@
 const axios = require('axios');
+const { RESTAURANT_SERVICE_URL } = require('../config/serverConfig');
 
 const OrderRepository = require('../repository/order-repository');
 const OrderItemRepository = require('../repository/orderItem-repository');
@@ -13,7 +14,7 @@ class OrderService {
         try {
             const resId = data.restaurantId;
             await axios.get(
-                `http://localhost:3000/api/v1/restaurant/${resId}`
+                `http://${RESTAURANT_SERVICE_URL}/api/v1/restaurant/${resId}`
             );
 
             const { items, ...orderData } = data;
@@ -21,7 +22,7 @@ class OrderService {
                 items.map(async (item) => {
                     const itemId = item.itemId;
                     const itemExist = await axios.get(
-                        `http://localhost:3000/api/v1/restaurant/${resId}/item/${itemId}`
+                        `http://${RESTAURANT_SERVICE_URL}/api/v1/restaurant/${resId}/item/${itemId}`
                     );
 
                     const restaurantItem = itemExist.data.data;
