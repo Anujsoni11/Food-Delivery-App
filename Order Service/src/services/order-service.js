@@ -57,11 +57,26 @@ class OrderService {
         }
     }
 
-    async destroy(id) {
+    async destroy(id, userId) {
         try {
-            const order = await this.orderRepository.destroy(id);
-            order.status = 'Cancelled';
-            return order;
+            const order = await this.orderRepository.get(id);
+            if(order.userId !== userId) {
+                throw new Error("Unauthorized cannot delete this order");
+            }
+            return await this.orderRepository.destroy(id);        
+        } catch (error) {
+            console.error('Service layer error');
+            throw error;
+        }
+    }
+
+    async cancel(id, userId) {
+        try {
+            const order = await this.orderRepository.get(id);
+            if(order.userId !== userId) {
+                throw new Error("Unauthorized cannot cancel this order");
+            }
+            return await this.orderRepository.update({ status: "Cancelled" }, id);
         } catch (error) {
             console.error('Service layer error');
             throw error;

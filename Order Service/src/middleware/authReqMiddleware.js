@@ -10,11 +10,13 @@ const isAuthenticated = async (req, res, next) => {
             });
         }
 
-        await axios.get(`http://localhost:3001/api/v1/isAuthenticated`, {
+        const response = await axios.get(`http://localhost:3001/api/v1/isAuthenticated`, {
             headers: {
                 'x-access-token': token
             }
         });
+
+        req.userId = response.data.data;
         next();
     } catch (error) {
         console.log(error);

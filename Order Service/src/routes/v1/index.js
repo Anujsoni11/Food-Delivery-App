@@ -5,7 +5,7 @@ const { OrderMiddleware }  = require('../../middleware/index');
 const router = express.Router();
 
 router.post('/orders', OrderMiddleware.isAuthenticated, OrderController.create);
-router.delete('/orders/:id', OrderController.destroy);
+router.delete('/orders/:id',OrderMiddleware.isAuthenticated, OrderController.destroy);
 router.patch('/orders/:id', OrderController.update);
 router.get('/orders/:id', OrderController.get);
 router.get('/orders', OrderController.getAll);

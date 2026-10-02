@@ -25,12 +25,31 @@ const create = async (req, res) => {
 
 const destroy = async (req, res) => {
     try {
-        const response = await orderService.destroy(req.params.id);
+        const response = await orderService.destroy(req.params.id, req.userId);
         return res.status(StatusCodes.ACCEPTED).json({
             success: true,
             data: response,
             err: {},
             message: 'Successfully deleted a order'
+        });
+    } catch (error) {
+        return res.status(error.statusCode || 500).json({
+            success: false,
+            data: {},
+            err: error,
+            message: 'Controller layer error'
+        });
+    }
+};
+
+const cancel = async (req, res) => {
+    try {
+        const response = await orderService.cancel(req.params.id, req.userId);
+        return res.status(StatusCodes.ACCEPTED).json({
+            success: true,
+            data: response,
+            err: {},
+            message: 'Successfully cancelled a order'
         });
     } catch (error) {
         return res.status(error.statusCode || 500).json({
@@ -121,6 +140,7 @@ const getAll = async (req, res) => {
 module.exports = {
     create,
     destroy,
+    cancel,
     update,
     updateStatus,
     get,
