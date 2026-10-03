@@ -44,9 +44,12 @@ class PaymentService {
         }
     }
 
-    async getAll() {
+    async getAll(page, limit) {
         try {
-            const payments = await this.paymentRepository.getAll();
+             const pageNumber = Number(page);
+            const limitNumber = Number(limit);
+            const offset = (pageNumber - 1) * limitNumber;
+            const payments = await this.paymentRepository.getAll(limitNumber, offset);
             return payments;
         } catch (error) {
             console.log("Service layer error");

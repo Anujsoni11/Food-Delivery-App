@@ -49,9 +49,12 @@ class PaymentRepository {
         }
     }
 
-    async getAll() {
+    async getAll(ltNumber, offset) {
         try {
-            const payments = await Payment.findAll();
+            const payments = await Payment.findAndCountAll({
+                offset: offset,
+                limit: ltNumber
+            });
             return payments;
         } catch (error) {
             console.log("Something went wrong");

@@ -89,7 +89,8 @@ const get = async (req, res) => {
 
 const getAll = async (req, res) => {
     try {
-        const response = await paymentService.getAll();
+        const { page, limit } = req.query;
+        const response = await paymentService.getAll( page, limit );
         res.status(200).json({
             success: true,  
             data: response,
