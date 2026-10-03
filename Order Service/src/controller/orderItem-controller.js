@@ -91,12 +91,21 @@ const getItem = async (req, res) => {
 const getAllItem = async (req, res) => {
     try {
         const response = await orderItemService.getAll(req.query.page, req.query.limit, req.params.id);
-        return res.status(StatusCodes.ACCEPTED).json({
-            success: true,
-            data: response,
-            err: {},
-            message: 'Successfully fetched all Items'
-        });
+        if(response) {
+            return res.status(StatusCodes.ACCEPTED).json({
+                success: true,
+                data: response,
+                err: {},
+                message: 'Successfully fetched all Item'
+            });
+        } else {
+            return res.status(StatusCodes.NOT_FOUND).json({
+                success: false,
+                data: {},
+                err: {},
+                message: 'Item not found'
+            });
+        }
     } catch (error) {
         return res.status(error.statusCode || 500).json({
             success: false,

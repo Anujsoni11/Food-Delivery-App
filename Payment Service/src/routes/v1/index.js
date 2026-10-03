@@ -9,4 +9,6 @@ router.patch("/payment/:id", PaymentController.update);
 router.get("/payment/:id", PaymentController.get);
 router.get("/payments", PaymentController.getAll);
 
+router.patch("/payment/:id/status", PaymentController.updateStatus);
+
 module.exports = router;

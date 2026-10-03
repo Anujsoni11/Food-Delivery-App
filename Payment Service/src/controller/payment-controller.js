@@ -59,6 +59,25 @@ const update = async (req, res) => {
     }
 };
 
+const updateStatus = async (req, res) => {
+    try {
+        const response = await paymentService.update(req.params.id, req.body.status );
+        return res.status(200).json({
+            success: true,
+            data: response,
+            err: {},
+            message: "Successfully updated payment status"
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            data: {},
+            err: error,
+            message: "Controller layer error"
+        });
+    }
+};
+
 const get = async (req, res) => {
     try {
         const response = await paymentService.get(req.params.id);
@@ -91,12 +110,21 @@ const getAll = async (req, res) => {
     try {
         const { page, limit } = req.query;
         const response = await paymentService.getAll( page, limit );
-        res.status(200).json({
-            success: true,  
-            data: response,
-            err: {},
-            message: "Successfully fetched all payments"
-        });
+        if(response) {
+            res.status(200).json({
+                success: true,
+                data: response,
+                err: {},
+                message: "Successfully fetched all payments"
+            });
+        } else {
+            res.status(404).json({
+                success: false,
+                data: {},
+                err: {},
+                message: "Payments not found"
+            });
+        }
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -111,6 +139,7 @@ module.exports = {
     create,
     destroy,
     update,
+    updateStatus,
     get,
     getAll
 };

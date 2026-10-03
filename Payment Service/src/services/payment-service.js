@@ -34,6 +34,16 @@ class PaymentService {
         }
     }
 
+    async updateStatus(id, status) {
+        try {
+            const payment = await this.paymentRepository.update(id, { status: status });
+            return payment;
+        } catch (error) {
+            console.log("Service layer error");
+            throw error;
+        }
+    }
+
     async get(id) {
         try {
             const payment = await this.paymentRepository.get(id);   

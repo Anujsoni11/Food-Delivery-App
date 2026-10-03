@@ -93,14 +93,22 @@ const getAllRestaurant = async (req, res) => {
     try {
         const {page, limit} = req.query;
         const restaurant = await restaurantService.getAllRestaurants(page, limit);
-        return res.status(StatusCodes.ACCEPTED).json({
-            success: true,
-            data: restaurant,
-            err: {},
-            message: 'Restaurants fetched successfully'
-        });
+        if(restaurant) {
+            return res.status(StatusCodes.ACCEPTED).json({
+                success: true,
+                data: restaurant,
+                err: {},
+                message: 'Restaurants fetched successfully'
+            });
+        } else {
+            return res.status(StatusCodes.NOT_FOUND).json({
+                success: false,
+                data: {},
+                err: {},
+                message: 'Restaurants not found'
+            });
+        }
     } catch(error) {
-        console.log(error);
         return res.status(error.statusCode || 500).json({
             success: false,
             data: {},

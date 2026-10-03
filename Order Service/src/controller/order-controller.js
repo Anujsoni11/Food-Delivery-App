@@ -130,12 +130,21 @@ const get = async (req, res) => {
 const getAll = async (req, res) => {
     try {
         const response = await orderService.getAll(req.query.page || 1, req.query.limit || 10);
-        return res.status(StatusCodes.ACCEPTED).json({
-            success: true,
-            data: response,
-            err: {},
-            message: 'Successfully fetched all orders'
-        });
+        if(response) {
+            return res.status(StatusCodes.ACCEPTED).json({
+                success: true,
+                data: response,
+                err: {},
+                message: 'Successfully fetched all orders'
+            });
+        } else {
+            return res.status(StatusCodes.NOT_FOUND).json({
+                success: false,
+                data: {},
+                err: {},
+                message: 'Orders not found'
+            });
+        }
     } catch (error) {
         return res.status(error.statusCode || 500).json({
             success: false,
