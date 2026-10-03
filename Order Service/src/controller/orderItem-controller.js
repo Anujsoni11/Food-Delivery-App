@@ -63,12 +63,21 @@ const updateItem = async (req, res) => {
 const getItem = async (req, res) => {
     try {
         const response = await orderItemService.get(req.params.itemId);
-        return res.status(StatusCodes.ACCEPTED).json({
-            success: true,
-            data: response,
-            err: {},
-            message: 'Successfully fetched a Item'
-        });
+        if(response) {
+            return res.status(StatusCodes.ACCEPTED).json({
+                success: true,
+                data: response,
+                err: {},
+                message: 'Successfully fetched a Item'
+            });
+        } else {
+            return res.status(StatusCodes.NOT_FOUND).json({
+                success: false,
+                data: {},
+                err: {},
+                message: 'Item not found'
+            });
+        }
     } catch (error) {
         return res.status(error.statusCode || 500).json({
             success: false,

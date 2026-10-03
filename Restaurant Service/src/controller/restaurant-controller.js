@@ -64,12 +64,21 @@ const updateRestaurant = async (req, res) => {
 const getRestaurant = async (req, res) => {
     try {
         const restaurant = await restaurantService.getRestaurantById(req.params.id);
-        return res.status(StatusCodes.ACCEPTED).json({
-            success: true,
-            data: restaurant,
-            err: {},
-            message: 'Restaurant fetched successfully'
-        });
+        if(restaurant) {
+            return res.status(StatusCodes.ACCEPTED).json({
+                success: true,
+                data: restaurant,
+                err: {},
+                message: 'Restaurant fetched successfully'
+            });
+        } else {
+            return res.status(StatusCodes.NOT_FOUND).json({
+                success: false,
+                data: {},
+                err: {},
+                message: 'Restaurant not found'
+            });
+        }
     } catch(error) {
         return res.status(error.statusCode || 500).json({
             success: false,

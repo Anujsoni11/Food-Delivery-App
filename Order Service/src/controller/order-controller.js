@@ -102,12 +102,21 @@ const updateStatus = async (req, res) => {
 const get = async (req, res) => {
     try {
         const response = await orderService.get(req.params.id, req.userId);
-        return res.status(StatusCodes.ACCEPTED).json({
-            success: true,
-            data: response,
-            err: {},
-            message: 'Successfully fetched a order'
-        });
+        if(response) {
+            return res.status(StatusCodes.ACCEPTED).json({
+                success: true,
+                data: response,
+                err: {},
+                message: 'Successfully fetched a order'
+            });
+        } else {
+            return res.status(StatusCodes.NOT_FOUND).json({
+                success: false,
+                data: {},
+                err: {},
+                message: 'Order not found'
+            });
+        }
     } catch (error) {
         return res.status(error.statusCode || 500).json({
             success: false,
