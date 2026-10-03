@@ -1,0 +1,22 @@
+{
+  "name": "payment-service",
+  "version": "1.0.0",
+  "description": "This service will have the following features:\r  - Create Payment\r  - Get Payment by ID\r  - Get Payment by Order ID\r  - Get User Payments\r  - Payment Status\r  - Payment Method\r  - Payment Validation\r  - Authentication and Authorization\r  - Order Service Communication\r  - Simulated Payment Processing\r  - Refund\r  - Duplicate Payment Protection\r  - Error Handling",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx nodemon src/index"
+  },
+  "dependencies": {
+    "body-parser": "^2.3.0",
+    "dotenv": "^18.0.5",
+    "express": "^5.2.1",
+    "mysql2": "^3.24.5",
+    "nodemon": "^3.1.14",
+    "sequelize": "^6.37.8",
+    "sequelize-cli": "^6.6.5"
+  },
+  "devDependencies": {}
+}
