@@ -6,7 +6,7 @@ const itemService = new ItemService();
 const createItem = async (req, res) => {
     try {
         const item = await itemService.createItem(req.body);
-        return res.status(StatusCodes.ACCEPTED).json({
+        return res.status(StatusCodes.CREATED).json({
             success: true,
             data: item,
             err: {},
@@ -25,7 +25,7 @@ const createItem = async (req, res) => {
 const destroyItem = async (req, res) => {
     try {
         await itemService.deleteItem(req.params.id);
-        return res.status(StatusCodes.ACCEPTED).json({
+        return res.status(StatusCodes.OK).json({
             success: true,
             data: {},
             err: {},
@@ -44,7 +44,7 @@ const destroyItem = async (req, res) => {
 const updateItem = async (req, res) => {
     try {
         const item = await itemService.updateItem(req.params.id, req.body);
-        return res.status(StatusCodes.ACCEPTED).json({
+        return res.status(StatusCodes.OK).json({
             success: true,
             data: item,
             err: {},
@@ -65,7 +65,7 @@ const getItem = async (req, res) => {
         const { restaurantId, itemId } = req.params;
         const item = await itemService.getItem(restaurantId, itemId);
         if(item) {
-            return res.status(StatusCodes.ACCEPTED).json({
+            return res.status(StatusCodes.OK).json({
                 success: true,
                 data: item,
                 err: {},
@@ -94,7 +94,7 @@ const getAllItem = async (req, res) => {
         const {page, limit} = req.query;
         const item = await itemService.getAllItems(page, limit, req.params.restaurantId);
         if(item) {
-            return res.status(StatusCodes.ACCEPTED).json({
+            return res.status(StatusCodes.OK).json({
                 success: true,
                 data: item,
                 err: {},

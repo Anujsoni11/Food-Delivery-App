@@ -6,7 +6,7 @@ const orderService = new OrderService();
 const create = async (req, res) => {
     try {
         const response = await orderService.create(req.body);
-        return res.status(StatusCodes.ACCEPTED).json({
+        return res.status(StatusCodes.CREATED).json({
             success: true,
             data: response,
             err: {},
@@ -26,7 +26,7 @@ const create = async (req, res) => {
 const destroy = async (req, res) => {
     try {
         const response = await orderService.destroy(req.params.id, req.userId);
-        return res.status(StatusCodes.ACCEPTED).json({
+        return res.status(StatusCodes.OK).json({
             success: true,
             data: response,
             err: {},
@@ -45,7 +45,7 @@ const destroy = async (req, res) => {
 const cancel = async (req, res) => {
     try {
         const response = await orderService.cancel(req.params.id, req.userId);
-        return res.status(StatusCodes.ACCEPTED).json({
+        return res.status(StatusCodes.OK).json({
             success: true,
             data: response,
             err: {},
@@ -64,7 +64,7 @@ const cancel = async (req, res) => {
 const update = async (req, res) => {
     try {
         const response = await orderService.update(req.body, req.params.id, req.userId);
-        return res.status(StatusCodes.ACCEPTED).json({
+        return res.status(StatusCodes.OK).json({
             success: true,
             data: response,
             err: {},
@@ -83,7 +83,7 @@ const update = async (req, res) => {
 const updateStatus = async (req, res) => {
     try {
         const response = await orderService.updateStatus(req.body.status, req.params.id);
-        return res.status(StatusCodes.ACCEPTED).json({
+        return res.status(StatusCodes.OK).json({
             success: true,
             data: response,
             err: {},
@@ -103,7 +103,7 @@ const get = async (req, res) => {
     try {
         const response = await orderService.get(req.params.id, req.userId);
         if(response) {
-            return res.status(StatusCodes.ACCEPTED).json({
+            return res.status(StatusCodes.OK).json({
                 success: true,
                 data: response,
                 err: {},
@@ -131,7 +131,7 @@ const getAll = async (req, res) => {
     try {
         const response = await orderService.getAll(req.query.page || 1, req.query.limit || 10);
         if(response) {
-            return res.status(StatusCodes.ACCEPTED).json({
+            return res.status(StatusCodes.OK).json({
                 success: true,
                 data: response,
                 err: {},

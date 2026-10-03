@@ -26,7 +26,7 @@ const userService = new UserService();
 const destroy = async (req, res) => {
     try {
         const response = await userService.destroy(req.params.id);
-        return res.status(StatusCodes.ACCEPTED).json({
+        return res.status(StatusCodes.OK).json({
             success: true,
             data: response,
             err: {},
@@ -45,7 +45,7 @@ const destroy = async (req, res) => {
 const update = async (req, res) => {
     try {
         const response = await userService.update(req.body, req.params.id);
-        return res.status(StatusCodes.ACCEPTED).json({
+        return res.status(StatusCodes.OK).json({
             success: true,
             data: response,
             err: {},
@@ -64,7 +64,7 @@ const update = async (req, res) => {
 const signUp = async (req, res) => {
     try {
         const response = await userService.signUp(req.body);
-        return res.status(StatusCodes.ACCEPTED).json({
+        return res.status(StatusCodes.CREATED).json({
             success: true,
             data: response,
             err: {},
@@ -83,7 +83,7 @@ const signUp = async (req, res) => {
 const login = async (req, res) => {
     try {
         const response = await userService.login(req.body.username, req.body.password);
-        return res.status(StatusCodes.ACCEPTED).json({
+        return res.status(StatusCodes.OK).json({
             success: true,
             data: response,
             err: {},
@@ -103,7 +103,7 @@ const isAuthenticated = async (req, res) => {
     try {
         const token = req.headers['x-access-token'];
         const response = await userService.isAuthenticated(token);
-        return res.status(StatusCodes.ACCEPTED).json({
+        return res.status(StatusCodes.OK).json({
             success: true,
             data: response,
             err: {},
@@ -123,14 +123,14 @@ const isAdmin = async (req, res) => {
     try {
         const response = await userService.isAdmin(req.body.id);
         if (response) {
-            return res.status(StatusCodes.ACCEPTED).json({
+            return res.status(StatusCodes.OK).json({
                 success: true,
                 err: {},
                 data: response,
                 message: 'Successfully fetched, User is admin'
             })
         } else {
-            return res.status(StatusCodes.ACCEPTED).json({
+            return res.status(StatusCodes.OK).json({
                 success: true,
                 err: {},
                 data: response,

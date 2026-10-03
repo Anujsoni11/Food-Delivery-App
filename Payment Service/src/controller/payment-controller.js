@@ -1,18 +1,19 @@
 const PaymentService = require("../services/payment-service");
+const { StatusCodes } = require("http-status-codes");
 
 const paymentService = new PaymentService();
 
 const create = async (req, res) => {
     try {
         const response = await paymentService.create(req.body);
-        res.status(201).json({
+        res.status(StatusCodes.CREATED).json({
             success: true,
             data: response,
             err: {},
             message: "Successfully created a payment"
         });
     } catch (error) {
-        res.status(500).json({
+        res.status(error.statusCodes || 500).json({
             success: false,
             data: {},
             err: error,
@@ -24,14 +25,14 @@ const create = async (req, res) => {
 const destroy = async (req, res) => {
     try {
         const response = await paymentService.destroy(req.params.id);
-        res.status(200).json({
+        res.status(StatusCodes.OK).json({
             success: true,
             data: response,
             err: {},
             message: "Successfully deleted a payment"
         });
     } catch (error) {
-        res.status(500).json({
+        res.status(error.statusCodes || 500).json({
             success: false,
             data: {},
             err: error,
@@ -43,14 +44,14 @@ const destroy = async (req, res) => {
 const update = async (req, res) => {
     try {
         const response = await paymentService.update(req.params.id, req.body);
-        res.status(200).json({
+        res.status(StatusCodes.OK).json({
             success: true,
             data: response,
             err: {},
             message: "Successfully updated a payment"
         });
     } catch (error) {
-        res.status(500).json({
+        res.status(error.statusCodes || 500).json({
             success: false,
             data: {},
             err: error,
@@ -61,15 +62,15 @@ const update = async (req, res) => {
 
 const updateStatus = async (req, res) => {
     try {
-        const response = await paymentService.update(req.params.id, req.body.status );
-        return res.status(200).json({
+        const response = await paymentService.updateStatus(req.params.id, req.body.status);
+        return res.status(StatusCodes.OK).json({
             success: true,
             data: response,
             err: {},
             message: "Successfully updated payment status"
         });
     } catch (error) {
-        res.status(500).json({
+        res.status(error.statusCodes || 500).json({
             success: false,
             data: {},
             err: error,
@@ -82,14 +83,14 @@ const get = async (req, res) => {
     try {
         const response = await paymentService.get(req.params.id);
         if(response) {
-            res.status(200).json({
+            res.status(StatusCodes.OK).json({
                 success: true,
                 data: response,
                 err: {},
                 message: "Successfully fetched a payment"
             });
         } else {
-            res.status(404).json({
+            res.status(StatusCodes.NOT_FOUND).json({
                 success: false,
                 data: {},
                 err: {},
@@ -97,7 +98,7 @@ const get = async (req, res) => {
             });
         }
     } catch (error) {
-        res.status(500).json({
+        res.status(error.statusCodes || 500).json({
             success: false,
             data: {},
             err: error,
@@ -111,14 +112,14 @@ const getAll = async (req, res) => {
         const { page, limit } = req.query;
         const response = await paymentService.getAll( page, limit );
         if(response) {
-            res.status(200).json({
+            res.status(StatusCodes.OK).json({
                 success: true,
                 data: response,
                 err: {},
                 message: "Successfully fetched all payments"
             });
         } else {
-            res.status(404).json({
+            res.status(StatusCodes.NOT_FOUND).json({
                 success: false,
                 data: {},
                 err: {},
@@ -126,7 +127,7 @@ const getAll = async (req, res) => {
             });
         }
     } catch (error) {
-        res.status(500).json({
+        res.status(error.statusCodes || 500).json({
             success: false,
             data: {},   
             err: error,

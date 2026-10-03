@@ -6,7 +6,7 @@ const orderItemService = new OrderItemService();
 const createItem = async (req, res) => {
     try {
         const response = await orderItemService.create(req.body, req.params.id);
-        return res.status(StatusCodes.ACCEPTED).json({
+        return res.status(StatusCodes.CREATED).json({
             success: true,
             data: response,
             err: {},
@@ -25,7 +25,7 @@ const createItem = async (req, res) => {
 const destroyItem = async (req, res) => {
     try {
         const response = await orderItemService.destroy(req.params.itemId);
-        return res.status(StatusCodes.ACCEPTED).json({
+        return res.status(StatusCodes.OK).json({
             success: true,
             data: response,
             err: {},
@@ -44,7 +44,7 @@ const destroyItem = async (req, res) => {
 const updateItem = async (req, res) => {
     try {
         const response = await orderItemService.update(req.body, req.params.itemId);
-        return res.status(StatusCodes.ACCEPTED).json({
+        return res.status(StatusCodes.OK).json({
             success: true,
             data: response,
             err: {},
@@ -64,7 +64,7 @@ const getItem = async (req, res) => {
     try {
         const response = await orderItemService.get(req.params.itemId);
         if(response) {
-            return res.status(StatusCodes.ACCEPTED).json({
+            return res.status(StatusCodes.OK).json({
                 success: true,
                 data: response,
                 err: {},
@@ -92,7 +92,7 @@ const getAllItem = async (req, res) => {
     try {
         const response = await orderItemService.getAll(req.query.page, req.query.limit, req.params.id);
         if(response) {
-            return res.status(StatusCodes.ACCEPTED).json({
+            return res.status(StatusCodes.OK).json({
                 success: true,
                 data: response,
                 err: {},

@@ -6,7 +6,7 @@ const restaurantService = new RestaurantService();
 const createRestaurant = async (req, res) => {
     try {
         const restaurant = await restaurantService.createRestaurant(req.body);
-        return res.status(StatusCodes.ACCEPTED).json({
+        return res.status(StatusCodes.CREATED).json({
             success: true,
             data: restaurant,
             err: {},
@@ -25,7 +25,7 @@ const createRestaurant = async (req, res) => {
 const destroyRestaurant = async (req, res) => {
     try {
         await restaurantService.destroyRestaurant(req.params.id);
-        return res.status(StatusCodes.ACCEPTED).json({
+        return res.status(StatusCodes.OK).json({
             success: true,
             data: {},
             err: {},
@@ -44,7 +44,7 @@ const destroyRestaurant = async (req, res) => {
 const updateRestaurant = async (req, res) => {
     try {
         const restaurant = await restaurantService.updateRestaurant(req.params.id, req.body);
-        return res.status(StatusCodes.ACCEPTED).json({
+        return res.status(StatusCodes.OK).json({
             success: true,
             data: restaurant,
             err: {},
@@ -65,7 +65,7 @@ const getRestaurant = async (req, res) => {
     try {
         const restaurant = await restaurantService.getRestaurantById(req.params.id);
         if(restaurant) {
-            return res.status(StatusCodes.ACCEPTED).json({
+            return res.status(StatusCodes.OK).json({
                 success: true,
                 data: restaurant,
                 err: {},
@@ -94,7 +94,7 @@ const getAllRestaurant = async (req, res) => {
         const {page, limit} = req.query;
         const restaurant = await restaurantService.getAllRestaurants(page, limit);
         if(restaurant) {
-            return res.status(StatusCodes.ACCEPTED).json({
+            return res.status(StatusCodes.OK).json({
                 success: true,
                 data: restaurant,
                 err: {},
