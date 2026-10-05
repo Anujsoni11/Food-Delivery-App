@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { RESTAURANT_SERVICE_URL } = require('../config/serverConfig');
+const { RESTAURANT_SERVICE_URL, PAYMENT_SERVICE_URL } = require('../config/serverConfig');
 
 const OrderRepository = require('../repository/order-repository');
 const OrderItemRepository = require('../repository/orderItem-repository');
@@ -10,19 +10,19 @@ class OrderService {
         this.orderItemRepository = new OrderItemRepository();
     }
 
-    async create(data) {
+    async create(data, userId, token) {
         try {
             const resId = data.restaurantId;
             await axios.get(
-                `http://${RESTAURANT_SERVICE_URL}/api/v1/restaurant/${resId}`
+                `${RESTAURANT_SERVICE_URL}/api/v1/restaurant/${resId}`
             );
 
-            const { items, ...orderData } = data;
+            const { items, paymentMethod, ...orderData } = data;
             const validatedItems = await Promise.all(
                 items.map(async (item) => {
                     const itemId = item.itemId;
                     const itemExist = await axios.get(
-                        `http://${RESTAURANT_SERVICE_URL}/api/v1/restaurant/${resId}/item/${itemId}`
+                        `${RESTAURANT_SERVICE_URL}/api/v1/restaurant/${resId}/item/${itemId}`
                     );
 
                     const restaurantItem = itemExist.data.data;
@@ -41,6 +41,7 @@ class OrderService {
             const totalAmount = validatedItems.reduce((total, item) => total + item.quantity * item.price, 0);
 
             orderData.totalAmount = totalAmount;
+            orderData.userId = userId;
             const order = await this.orderRepository.create(orderData);
             const orderItems = validatedItems.map((item) => ({
                 ...item,
@@ -48,6 +49,14 @@ class OrderService {
             }));
 
             const createdItems = await this.orderItemRepository.bulkCreate(orderItems);
+            const paymentResponse = await axios.post(`${PAYMENT_SERVICE_URL}/api/v1/payment`, {
+                orderId: order.id,
+                paymentMethod: paymentMethod
+            }, {
+                headers: {
+                    'x-access-token': token
+                }
+            });
             return {
                 order,
                 items: createdItems
@@ -61,10 +70,10 @@ class OrderService {
     async destroy(id, userId) {
         try {
             const order = await this.orderRepository.get(id);
-            if(order.userId !== userId) {
+            if (order.userId !== userId) {
                 throw new Error("Unauthorized cannot delete this order");
             }
-            return await this.orderRepository.destroy(id);        
+            return await this.orderRepository.destroy(id);
         } catch (error) {
             console.error('Service layer error');
             throw error;
@@ -74,7 +83,7 @@ class OrderService {
     async cancel(id, userId) {
         try {
             const order = await this.orderRepository.get(id);
-            if(order.userId !== userId) {
+            if (order.userId !== userId) {
                 throw new Error("Unauthorized cannot cancel this order");
             }
             return await this.orderRepository.update({ status: "Cancelled" }, id);
@@ -87,7 +96,7 @@ class OrderService {
     async update(data, id, userId) {
         try {
             const order = await this.orderRepository.get(id);
-            if(order.userId !== userId) {
+            if (order.userId !== userId) {
                 throw new Error("Unauthorized cannot update this order");
             }
             const updatedOrder = await this.orderRepository.update(data, id);
@@ -124,15 +133,13 @@ class OrderService {
 
     async get(id, userId) {
         try {
-            const order = await this.orderRepository.get(id, {
-                include: [
-                    {
-                        model: OrderItem,
-                        as: 'items'
-                    }
-                ]
-            });
-            if(order.userId !== userId) {
+            const order = await this.orderRepository.get(id);
+
+            if (!order) {
+                return null;
+            }
+
+            if (order.userId !== userId) {
                 throw new Error("Unauthorized cannot fetch this order");
             }
             return order;

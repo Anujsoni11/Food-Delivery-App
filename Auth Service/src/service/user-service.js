@@ -114,6 +114,7 @@ class UserService {
             const response = jwt.verify(token, SECRET_KEY);
             return response;
         } catch (error) {
+            console.log(error);
             console.log('Something went wrong in token verification');
             throw error;
         }

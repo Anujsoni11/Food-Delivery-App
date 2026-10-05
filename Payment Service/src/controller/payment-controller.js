@@ -5,7 +5,8 @@ const paymentService = new PaymentService();
 
 const create = async (req, res) => {
     try {
-        const response = await paymentService.create(req.body);
+        const token = req.headers['x-access-token'] || req.headers['authorization'];
+        const response = await paymentService.create(req.body, req.userId, token);
         res.status(StatusCodes.CREATED).json({
             success: true,
             data: response,
@@ -13,6 +14,7 @@ const create = async (req, res) => {
             message: "Successfully created a payment"
         });
     } catch (error) {
+        console.log(error);
         res.status(error.statusCodes || 500).json({
             success: false,
             data: {},

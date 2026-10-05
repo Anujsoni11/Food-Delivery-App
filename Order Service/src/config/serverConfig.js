@@ -5,5 +5,6 @@ dotenv.config();
 module.exports = {
     PORT: process.env.PORT,
     AUTH_SERVICE_URL: process.env.AUTH_SERVICE_URL,
-    RESTAURANT_SERVICE_URL: process.env.RESTAURANT_SERVICE_URL
+    RESTAURANT_SERVICE_URL: process.env.RESTAURANT_SERVICE_URL,
+    PAYMENT_SERVICE_URL: process.env.PAYMENT_SERVICE_URL
 }

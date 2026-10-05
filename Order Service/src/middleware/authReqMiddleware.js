@@ -11,7 +11,7 @@ const isAuthenticated = async (req, res, next) => {
             });
         }
 
-        const response = await axios.get(`http://${AUTH_SERVICE_URL}/api/v1/isAuthenticated`, {
+        const response = await axios.get(`${AUTH_SERVICE_URL}/api/v1/isAuthenticated`, {
             headers: {
                 'x-access-token': token
             }
@@ -33,7 +33,7 @@ const isAdmin = async (req, res, next) => {
         const token = req.headers['x-access-token'] || req.headers['authorization'];
 
         const response = await axios.post(
-            `http://${AUTH_SERVICE_URL}/api/v1/isAdmin`, 
+            `${AUTH_SERVICE_URL}/api/v1/isAdmin`, 
             {
                 id: req.userId
             }, {

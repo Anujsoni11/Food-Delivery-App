@@ -49,6 +49,12 @@ class PaymentRepository {
         }
     }
 
+    async findByOrderId(orderId) {
+        return await Payment.findOne({
+            where: { orderId: orderId }
+        });
+    }
+
     async getAll(ltNumber, offset) {
         try {
             const payments = await Payment.findAndCountAll({

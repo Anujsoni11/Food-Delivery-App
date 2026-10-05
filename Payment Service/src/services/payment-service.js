@@ -1,3 +1,5 @@
+const axios = require("axios");
+const { ORDER_SERVICE_URL } = require("../config/serverConfig");
 const PaymentRepository = require("../repository/payment-repository");
 
 class PaymentService {
@@ -5,8 +7,34 @@ class PaymentService {
         this.paymentRepository = new PaymentRepository();
     }
 
-    async create(data) {
+    async create(data, userId, token) {
         try {
+            const existingPayment = await this.paymentRepository.findByOrderId(data.orderId);
+            if (existingPayment) {
+                throw new Error("Payment already exists for this order");
+            }
+
+            const orderResponse = await axios.get(`${ORDER_SERVICE_URL}/api/v1/orders/${data.orderId}`, {
+                headers: {
+                    "x-access-token": token
+                }
+            });
+            if (!orderResponse.data.success) {
+                throw new Error("Order not found");
+            }
+
+            const order = orderResponse.data.data;
+            if (order.userId !== userId) {
+                throw new Error("You are not authorized to pay for this order");
+            }
+
+            if (order.status !== "Pending") {
+                throw new Error("Payment can only be created for a pending order");
+            }
+
+            data.userId = userId;
+            data.transactionId = `TXN_${Date.now()}`;
+            data.amount = order.totalAmount;
             const payment = await this.paymentRepository.create(data);
             return payment;
         } catch (error) {
@@ -36,8 +64,20 @@ class PaymentService {
 
     async updateStatus(id, status) {
         try {
-            const payment = await this.paymentRepository.update(id, { status: status });
-            return payment;
+            const allowedTransitions = {
+                "pending": ["successful", "failed", "refunded"],
+                "successful": ["refunded"],
+                "failed": [],
+                "refunded": []
+            };
+            const payment = await this.paymentRepository.get(id);
+            if (allowedTransitions[payment.status].includes(status)) {
+                const updatedPayment = await this.paymentRepository.update(id, { status });
+                return updatedPayment;
+            } else {
+                console.log("Can't update payment status");
+                throw error;
+            }
         } catch (error) {
             console.log("Service layer error");
             throw error;

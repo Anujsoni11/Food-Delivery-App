@@ -39,7 +39,9 @@ module.exports = (sequelize, DataTypes) => {
         'OutForDelivery',
         'Delivered',
         'Cancelled'
-      )
+      ),
+      defaultValue: 'Pending',
+      allowNull: false
     },
     deliveryAddress: {
       type: DataTypes.STRING,

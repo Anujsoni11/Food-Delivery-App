@@ -5,7 +5,8 @@ const orderService = new OrderService();
 
 const create = async (req, res) => {
     try {
-        const response = await orderService.create(req.body);
+        const token = req.headers['x-access-token'] || req.headers['authorization'];
+        const response = await orderService.create(req.body, req.userId, token);
         return res.status(StatusCodes.CREATED).json({
             success: true,
             data: response,

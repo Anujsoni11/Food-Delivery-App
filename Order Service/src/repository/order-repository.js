@@ -1,4 +1,4 @@
-const { Order } = require('../models');
+const { Order, OrderItem } = require('../models');
 
 class OrderRepository {
     async create(data) {
@@ -41,7 +41,14 @@ class OrderRepository {
 
     async get(id) {
         try {
-            const order = await Order.findByPk(id);
+            const order = await Order.findByPk(id, {
+                include: [
+                    {
+                        model: OrderItem,
+                        as: 'items'
+                    }
+                ]
+            });
             return order;
         } catch (error) {
             console.log('Something went wrong');
