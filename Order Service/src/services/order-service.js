@@ -57,10 +57,21 @@ class OrderService {
                     'x-access-token': token
                 }
             });
-            return {
-                order,
-                items: createdItems
-            };
+            if (paymentResponse.data.data.status === "Completed") {
+                await this.orderRepository.update({ status: "Confirmed" }, order.id);
+                
+                const updatedOrder = await this.orderRepository.get(order.id);
+
+                return {
+                    order: updatedOrder,
+                    items: createdItems
+                };
+            } else if (paymentResponse.data.data.status === "Failed") {
+                await this.orderRepository.update({ status: "Cancelled" }, order.id);
+                throw new Error("Payment failed");
+            } else {
+                throw new Error("Payment processing error");
+            }
         } catch (error) {
             console.error('Service layer error');
             throw error;

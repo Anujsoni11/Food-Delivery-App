@@ -36,7 +36,13 @@ class PaymentService {
             data.transactionId = `TXN_${Date.now()}`;
             data.amount = order.totalAmount;
             const payment = await this.paymentRepository.create(data);
-            return payment;
+
+            const updatedPayment = await this.paymentRepository.update(
+                payment.id,
+                { status: "Completed" }
+            );
+
+            return updatedPayment;
         } catch (error) {
             console.log("Service layer error");
             throw error;
